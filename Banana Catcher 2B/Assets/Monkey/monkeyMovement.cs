@@ -13,6 +13,9 @@ public class monkeyMovement : MonoBehaviour
     [Header("Percentage chance to switch direction")]
     public float chance;
 
+    [Header("Height of monkey")]
+    public float height;
+
     public bool flippedRecently;
     [Range(0,60)]
     public int flippedRecentlyCounter;
@@ -56,7 +59,7 @@ public class monkeyMovement : MonoBehaviour
                 gameObject.GetComponent<SpriteRenderer>().flipX = true;
             }
             transform.position += direction * speed * Time.deltaTime;
-            transform.position = new Vector3(transform.position.x, (Mathf.Pow(transform.position.x, 2)/40 + 1), 0);
+            transform.position = new Vector3(transform.position.x, (Mathf.Pow(transform.position.x, 2)/40 + height), 0);
         }
     }
 }

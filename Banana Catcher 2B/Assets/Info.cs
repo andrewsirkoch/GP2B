@@ -17,7 +17,7 @@ public class Info : MonoBehaviour
     public void restart()
     {
         score = 0;
-        lives = 3;
+        lives = 5;
         bananasCaught = 0;
         bunchesCaught = 0;
         poosCaught = 0;

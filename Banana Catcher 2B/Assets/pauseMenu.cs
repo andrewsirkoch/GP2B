@@ -7,15 +7,17 @@ public class pauseMenu : MonoBehaviour
 
     private GameObject monkey;
     private GameObject basket;
+    private GameObject monkey2;
 
     [Header("We will be listening for esc input in this script")]
     public GameObject UI;
-    private bool paused = false;
+    public static bool paused = false;
 
     // Start is called before the first frame update
     void Start()
     {
         monkey = GameObject.Find("monkey");
+        monkey2 = GameObject.Find("secondMonkey");
         basket = GameObject.Find("basket");
     }
 
@@ -72,6 +74,7 @@ public class pauseMenu : MonoBehaviour
         if (decision == true)
         {
             monkey.GetComponent<monkeyMovement>().moving = false;
+            monkey2.GetComponent<monkeyMovement>().moving = false;
             basket.GetComponent<basketScript>().control = false;
             basket.GetComponent<Rigidbody2D>().simulated = false;
             UI.SetActive(true);
@@ -82,6 +85,7 @@ public class pauseMenu : MonoBehaviour
         else
         {
             monkey.GetComponent<monkeyMovement>().moving = true;
+            monkey2.GetComponent<monkeyMovement>().moving = true;
             basket.GetComponent<basketScript>().control = true;
             basket.GetComponent<Rigidbody2D>().simulated = true;
             UI.SetActive(false);

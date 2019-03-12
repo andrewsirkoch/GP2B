@@ -10,9 +10,16 @@ public class monkeyThrow : MonoBehaviour
     [Header("Sprite in which the hands are extended")]
     public Sprite throwing;
 
+    [Header("Enable to speed up over time")]
+    public bool getFaster;
+    [Header("Minimum amount of frames to wait before throwing.")]
+    public int intervalCutoff;
+    [Header("Distance items spawn below monkey")]
+    public float spawnOffset;
     private bool doneThrowing;
     private int animationCounter = 0;
     private int throwCounter = 0;
+    [Header("Frames to wait before throwing")]
     public int timer = 70;
 
     private AudioSource soundOne;
@@ -34,7 +41,7 @@ public class monkeyThrow : MonoBehaviour
 
         if (decision < 0.15)
         {
-            Instantiate(Resources.Load("Droppables/bananaBunch"));
+            Instantiate(Resources.Load("Droppables/bananaBunch"), findPosition(), Quaternion.identity);
 
             int random = Random.Range(0, 3);
             if (random == 0) soundOne.Play();
@@ -43,13 +50,17 @@ public class monkeyThrow : MonoBehaviour
         }
         else if (decision >= 0.15 && decision <= 0.9)
         {
-            Instantiate(Resources.Load("Droppables/banana"));
+            Instantiate(Resources.Load("Droppables/banana"), findPosition(), Quaternion.identity);
         }
         else if (decision > 0.9)
         {
-            Instantiate(Resources.Load("Droppables/poo"));
+            Instantiate(Resources.Load("Droppables/poo"), findPosition(), Quaternion.identity);
             fartSound.pitch = Random.Range(0.75f, 0.9f);
             fartSound.Play();
+        }
+        else if ((decision < 0.15 || decision > 0.9))
+        {
+            Instantiate(Resources.Load("Droppables/banana"), findPosition(), Quaternion.identity);
         }
     }
 
@@ -68,7 +79,7 @@ public class monkeyThrow : MonoBehaviour
                 gameObject.GetComponent<SpriteRenderer>().sprite = throwing;
                 throwCounter = 0;
 
-                if (timer - 1 >= 18)
+                if (timer - 1 >= intervalCutoff && getFaster == true)
                 {
                     timer -= 1;
                 }
@@ -87,5 +98,9 @@ public class monkeyThrow : MonoBehaviour
                 gameObject.GetComponent<SpriteRenderer>().sprite = notThrowing;
             }
         }
+    }
+    Vector3 findPosition()
+    {
+        return new Vector3(transform.position.x, transform.position.y - spawnOffset, transform.position.z);
     }
 }
